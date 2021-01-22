@@ -3,7 +3,7 @@ description: Літайте на таксі, замовляйте на стол�
 
 publish_to: 'none'
 
-version: 0.0+1
+version: 0.1+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -14,6 +14,8 @@ dependencies:
     
   firebase_core: "0.5.3"
   firebase_analytics: ^6.3.0
+
+  smart_select: ^4.3.2
 
   cupertino_icons: ^1.0.1
 
