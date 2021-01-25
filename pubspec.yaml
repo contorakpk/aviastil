@@ -11,13 +11,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  cupertino_icons: ^1.0.1
     
   firebase_core: "0.5.3"
   firebase_analytics: ^6.3.0
 
   smart_select: ^4.3.2
-
-  cupertino_icons: ^1.0.1
+  rflutter_alert: ^1.1.0
 
 dev_dependencies:
   flutter_test:
