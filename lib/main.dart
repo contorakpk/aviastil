@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:aviastil/pages/home_page.dart';
+import 'package:aviastil/pages/welcome_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(bodyText2: TextStyle(color: Color(0xffeceffa))),
         accentColor: Color(0xffeceffa),
       ),
-      home: HomePage(),
+      home: WelcomePage(),
     );
   }
 }
