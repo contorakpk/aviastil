@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:aviastil/pages/auth/login_page.dart';
 import 'package:aviastil/pages/auth/sign_up_page.dart';
 import 'package:aviastil/widgets/background.dart';

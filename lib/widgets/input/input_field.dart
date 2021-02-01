@@ -10,19 +10,19 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    return Row(
-      children: <Widget>[
+    return Column(
+      children: [
         Container(
           width: _width * 0.06,
           child: Text(
             "$label",
             textAlign: TextAlign.left,
-            style: TextStyle(color: Colors.black, fontSize: _width * 0.01),
+            style: TextStyle(color: Colors.black, fontSize: _width * 0.01, fontWeight: FontWeight.bold),
           ),
         ),
         Container(
-          margin: EdgeInsets.only(left: _width * 0.036),
-          width: _width * 0.24,
+          margin: EdgeInsets.only(top: _width * 0.006),
+          width: _width * 0.26,
           height: _width * 0.032,
           color: Colors.blue[50],
           child: TextField(
