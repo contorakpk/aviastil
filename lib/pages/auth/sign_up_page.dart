@@ -1,4 +1,6 @@
+import 'package:aviastil/functions/sign_up.dart';
 import 'package:aviastil/pages/auth/login_page.dart';
+import 'package:aviastil/pages/home_page.dart';
 import 'package:aviastil/widgets/input/input_field.dart';
 import 'package:aviastil/widgets/input/input_field_password.dart';
 import 'package:aviastil/widgets/select/circle_selection.dart';
@@ -10,6 +12,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  String _gender;
+
   bool _obscureText = true;
   bool _isSelected1 = false;
   bool _isSelected2 = false;
@@ -17,11 +21,11 @@ class _SignUpPageState extends State<SignUpPage> {
   DateTime _dateStart = DateTime.now();
   DateTime _selectedDate = DateTime.now();
 
-  TextEditingController nameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController surnameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _surnameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   void _showPassword() {
     setState(() {
@@ -40,6 +44,20 @@ class _SignUpPageState extends State<SignUpPage> {
       setState(() {
         _selectedDate = picked;
       });
+  }
+
+  void showSnackBar(String value) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          value,
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Theme.of(context).accentColor,
+        behavior: SnackBarBehavior.floating,
+        elevation: 6.0,
+      ),
+    );
   }
 
   @override
@@ -143,21 +161,21 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: InputField(
                           label: 'Ім\'я',
                           content: 'Тарас',
-                          controller: nameController,
+                          controller: _firstNameController,
                         ),
                       ),
                       Container(
                         child: InputField(
                           label: 'По-батькові',
                           content: 'Григорович',
-                          controller: surnameController,
+                          controller: _surnameController,
                         ),
                       ),
                       Container(
                         child: InputField(
                           label: 'Прізвище',
                           content: 'Шевченко',
-                          controller: lastNameController,
+                          controller: _lastNameController,
                         ),
                       ),
                       Container(
@@ -211,6 +229,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   setState(() {
                                     _isSelected1 = true;
                                     _isSelected2 = false;
+                                    _gender = 'Чоловік';
                                   });
                                 },
                                 child: CircleSelection(
@@ -233,6 +252,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   setState(() {
                                     _isSelected1 = false;
                                     _isSelected2 = true;
+                                    _gender = 'Жінка';
                                   });
                                 },
                                 child: CircleSelection(
@@ -255,7 +275,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: InputField(
                           label: 'Емайл',
                           content: 'email@gmail.com',
-                          controller: emailController,
+                          controller: _emailController,
                         ),
                       ),
                       Row(
@@ -265,7 +285,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               obscureText: _obscureText,
                               label: 'Пароль',
                               content: '••••••••',
-                              controller: passwordController,
+                              controller: _passwordController,
                             ),
                           ),
                           Container(
@@ -283,7 +303,29 @@ class _SignUpPageState extends State<SignUpPage> {
                         width: _width * 0.16,
                         height: _width * 0.03,
                         child: RaisedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            signUp(
+                                    _emailController.text,
+                                    _passwordController.text,
+                                    _firstNameController.text,
+                                    _lastNameController.text,
+                                    _gender,
+                                    '${_selectedDate.year}-${_selectedDate.month}-${_selectedDate.day}')
+                                .then((value) {
+                              if (value == null) {
+                                _emailController.clear();
+                                _passwordController.clear();
+                                showSnackBar(
+                                    'Сталася помилка, спробуйте пізніше');
+                              } else {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()),
+                                    (Route<dynamic> route) => false);
+                              }
+                            });
+                          },
                           color: Theme.of(context).scaffoldBackgroundColor,
                           child: Text(
                             'Зареєструватись',

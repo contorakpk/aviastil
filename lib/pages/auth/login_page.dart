@@ -1,5 +1,6 @@
-import 'dart:convert';
-
+import 'package:aviastil/db/db_auth.dart';
+import 'package:aviastil/functions/login.dart';
+import 'package:aviastil/functions/sign_up.dart';
 import 'package:aviastil/pages/admin_page.dart';
 import 'package:aviastil/pages/auth/sign_up_page.dart';
 import 'package:aviastil/pages/home_page.dart';
@@ -7,7 +8,8 @@ import 'package:aviastil/widgets/input/input_field.dart';
 import 'package:aviastil/widgets/input/input_field_password.dart';
 import 'package:aviastil/widgets/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hive/hive.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -15,7 +17,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  var appDataBox = Hive.box('appData');
+
   bool _obscureText = true;
+
+  String message, currentUser;
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -26,47 +32,13 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-   void _login() async {
-    //FocusScope.of(context).requestFocus(FocusNode());
-
-    //FullScreenDialogs().showFullScreenLoadingDialog(context); //https://project-aquafresh.000webhostapp.com/auth/login.php
-
-    var url =
-        "https://dbserverproject.000webhostapp.com/librarian/auth/librarian_sign_in.php";
-    var data = {
-      "email": _emailController.text,
-      "password": _passwordController.text,
-    };
-
-    var res = await http.post(url, body: data);
-
-    //Navigator.of(context).pop();
-    switch (jsonDecode(res.body)) {
-      case 'password-matched':
-       // _getID();
-
-        //localBox.put('email', _emailController.text);
-        //localBox.put('password', _passwordController.text);
-        //localBox.put('role', 'librarian');
-
-        Navigator.pushAndRemoveUntil(
-           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-          (Route<dynamic> route) => false);
-        break;
-      case 'wrong-password':
-        return showSnackBar('Помилка: Неправильний пароль');
-      case 'missing-email':
-        return showSnackBar('Помилка: пошта не зареєстрована');
-      default:
-        return showSnackBar(jsonDecode(res.body));
-    }
-  }
-
   void showSnackBar(String value) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(value, style: TextStyle(color: Colors.black),),
+        content: Text(
+          value,
+          style: TextStyle(color: Colors.black),
+        ),
         backgroundColor: Theme.of(context).accentColor,
         behavior: SnackBarBehavior.floating,
         elevation: 6.0,
@@ -204,22 +176,22 @@ class _LoginPageState extends State<LoginPage> {
                         height: _width * 0.03,
                         child: RaisedButton(
                           onPressed: () {
-                            if (_emailController.text == 'admin' &&
-                                _passwordController.text == 'admin') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AdminPage()));
-                            } else {
-                              if(_emailController.text == 'opamkgue@ukr.net' && _passwordController.text == 'zxc') {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage()));
+                            login(_emailController.text,
+                                    _passwordController.text)
+                                .then((value) {
+                              if (value == null) {
+                                _emailController.clear();
+                                _passwordController.clear();
+                                showSnackBar(
+                                    'Сталася помилка, спробуйте пізніше');
                               } else {
-                                showSnackBar('Помилка: Неправильно введені дані');
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()),
+                                    (Route<dynamic> route) => false);
                               }
-                            }
+                            });
                           },
                           color: Theme.of(context).scaffoldBackgroundColor,
                           child: Text(

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 import 'package:aviastil/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
@@ -86,9 +85,7 @@ class _AdminPageState extends State<AdminPage> {
         ),
         buttons: [
           DialogButton(
-            onPressed: () {
-              _addCities();
-            },
+            onPressed: () {},
             child: Text(
               "Добавити",
               style: TextStyle(color: Colors.white, fontSize: 20),
@@ -116,7 +113,7 @@ class _AdminPageState extends State<AdminPage> {
         ),
         buttons: [
           DialogButton(
-            onPressed: _addCitiesFrom,
+            onPressed: () {},
             child: Text(
               "Добавити",
               style: TextStyle(color: Colors.white, fontSize: 20),
@@ -576,44 +573,6 @@ class _AdminPageState extends State<AdminPage> {
             ),
           )
         ]).show();
-  }
-
-  void _addCities() async {
-    var url = "https://project-aquafresh.000webhostapp.com/add/cities_add.php";
-    var data = {
-      "name": _firstController.text,
-      "country": _secondController,
-      "price": _thirdController.text
-    };
-
-    var res = await http.post(url, body: data);
-    
-    switch (jsonDecode(res.body)) {
-      case 'true':
-        return showSnackBar('Успіх: Запис добавлений');
-      case 'false':
-        return showSnackBar('Помилка: Сталася помилка доступу');
-      default:
-        return showSnackBar(jsonDecode(res.body));
-    }
-  }
-
-  void _addCitiesFrom() async {
-    var url = "https://project-aquafresh.000webhostapp.com/add/cities_from_add.php";
-    var data = {
-      "name": _firstController.text
-    };
-
-    var res = await http.post(url, body: data);
-    
-    switch (jsonDecode(res.body)) {
-      case 'true':
-        return showSnackBar('Успіх: Запис добавлений');
-      case 'false':
-        return showSnackBar('Помилка: Сталася помилка доступу');
-      default:
-        return showSnackBar(jsonDecode(res.body));
-    }
   }
 
   void showSnackBar(String value) {

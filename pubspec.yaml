@@ -3,7 +3,7 @@ description: Літайте на таксі, замовляйте на стол�
 
 publish_to: 'none'
 
-version: 0.2+1
+version: 0.3+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -12,14 +12,21 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.1
-    
-  firebase_core: "0.5.3"
-  firebase_analytics: ^6.3.0
+
+  firebase_core: ^0.7.0
+  firebase_auth: ^0.20.0+1
+  cloud_firestore: ^0.16.0
+
+  hive: ^1.4.4+1
+  hive_flutter: ^0.3.1
+  path_provider: ^1.6.27
 
   smart_select: ^4.3.2
   rflutter_alert: ^1.1.0
 
 dev_dependencies:
+  hive_generator: ^0.8.2
+
   flutter_test:
     sdk: flutter
   integration_test:
@@ -27,3 +34,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/aviastil.png
+    - assets/images/aviastil_icon.png
