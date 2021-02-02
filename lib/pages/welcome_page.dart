@@ -91,7 +91,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             borderRadius:
                                 BorderRadius.circular(_width * 0.013)),
                         child: Text(
-                          'Війти',
+                          'Вхід',
                           style: TextStyle(
                             fontSize: _width * 0.014,
                           ),
@@ -128,7 +128,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 height: _width * 0.07,
                 color: Colors.white54,
                 child: Text(
-                  'Літайте на столі, замовляйте на столі',
+                  'Літайте на таксі, замовляйте на столі',
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: _width * 0.024,

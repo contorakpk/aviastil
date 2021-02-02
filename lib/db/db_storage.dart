@@ -38,4 +38,22 @@ class DBStorage {
 
     return error;
   }
+
+  Future<void> addUser(String _buyerEmail, String _from, String _where,
+      String _hotel, String _buyDate, int _peoples, int _days, int _price) {
+    CollectionReference tickets = setCollection('tickets');
+    return tickets
+        .add({
+          'buyerEmail': _buyerEmail,
+          'peoples': _peoples,
+          'from': _from,
+          'where': _where,
+          'hotel': _hotel,
+          'days': _days,
+          'buyDate': _buyDate,
+          'price': _price
+        })
+        .then((value) => print("Працює"))
+        .catchError((error) => print("Помилка: $error"));
+  }
 }

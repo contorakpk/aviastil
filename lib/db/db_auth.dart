@@ -20,13 +20,10 @@ class DBAuth {
   }
 
   Future<String> signUp(String _email, String _password) async {
+    signOut();
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _email, password: _password);
-
-      //String currentUser = getCurrentUser();
-
-      //DBStorage().newUserCollection(_email, _password, currentUser);
     } on FirebaseAuthException catch (e) {
       return error = e.code;
     }
@@ -35,6 +32,7 @@ class DBAuth {
   }
 
   Future<String> login(String _email, String _password) async {
+    signOut();
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email, password: _password);
